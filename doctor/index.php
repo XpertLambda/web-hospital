@@ -10,25 +10,17 @@
                     <table id="doctors" class="table table-bordered table-hover">
                       <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Gender</th>
-                        <th>Specialist</th>
-                        <th>Action</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Gender</th>
+                      <th>Specialist</th>
+                      <th>Action</th>
                       </tr>
                       </thead>
                       <tbody>
                       </tbody>
-                      <tfoot>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Gender</th>
-                        <th>Specialist</th>
-                        <th>Action</th>
-                      </tr>
+                    </table>
                       </tfoot>
                     </table>
                   </div>

@@ -23,7 +23,7 @@
   <!-- Main Header -->
   <header class="main-header">
     <!-- Logo -->
-    <a href="index.php" class="logo">
+    <a href="/index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>BD</span>
       <!-- logo for regular state and mobile devices -->
@@ -105,7 +105,7 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menu</li>
-        <!-- Optionally, you can add icons to the links -->
+        <!-- Doctors Menu -->
         <li class="treeview">
           <a href="#"><i class="fa fa-medkit"></i> <span>Doctors</span>
             <span class="pull-right-container">
@@ -115,6 +115,32 @@
           <ul class="treeview-menu">
             <li><a href="/doctor/create.php">Create Doctor</a></li>
             <li><a href="/doctor">All Doctors</a></li>
+          </ul>
+        </li>
+        
+        <!-- Nurses Menu -->
+        <li class="treeview">
+          <a href="#"><i class="fa fa-user-md"></i> <span>Nurses</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/nurse/create.php">Create Nurse</a></li>
+            <li><a href="/nurse">All Nurses</a></li>
+          </ul>
+        </li>
+
+        <!-- Patients Menu -->
+        <li class="treeview">
+          <a href="#"><i class="fa fa-wheelchair"></i> <span>Patients</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/patient/create.php">Create Patient</a></li>
+            <li><a href="/patient">All Patients</a></li>
           </ul>
         </li>
       </ul>
