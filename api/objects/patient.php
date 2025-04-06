@@ -100,4 +100,58 @@ class Patient{
         }
         return false;
     }
+
+    // Read patients assigned to a specific doctor
+    public function readByDoctor($doctorId) {
+        $query = "SELECT p.id, u.name, u.phone, u.gender, p.health_condition, 
+                         p.doctor_id, doc.name as doctor_name, 
+                         p.nurse_id, n.name as nurse_name 
+                  FROM " . $this->table_name . " p
+                  JOIN users u ON p.user_id = u.id
+                  JOIN users doc ON p.doctor_id = doc.id
+                  JOIN users n ON p.nurse_id = n.id
+                  WHERE p.doctor_id = :doctor_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':doctor_id', $doctorId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
+
+    // Read patients assigned to a specific nurse
+    public function readByNurse($nurseId) {
+        $query = "SELECT p.id, u.name, u.phone, u.gender, p.health_condition, 
+                         p.doctor_id, doc.name as doctor_name, 
+                         p.nurse_id, n.name as nurse_name 
+                  FROM " . $this->table_name . " p
+                  JOIN users u ON p.user_id = u.id
+                  JOIN users doc ON p.doctor_id = doc.id
+                  JOIN users n ON p.nurse_id = n.id
+                  WHERE p.nurse_id = :nurse_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nurse_id', $nurseId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
+
+    // Read a single patient (used for patients to see their own info)
+    public function readSingle($userId) {
+        $query = "SELECT p.id, u.name, u.phone, u.gender, p.health_condition, 
+                         p.doctor_id, doc.name as doctor_name, 
+                         p.nurse_id, n.name as nurse_name 
+                  FROM " . $this->table_name . " p
+                  JOIN users u ON p.user_id = u.id
+                  JOIN users doc ON p.doctor_id = doc.id
+                  JOIN users n ON p.nurse_id = n.id
+                  WHERE p.user_id = :user_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
 }

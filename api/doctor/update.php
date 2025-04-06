@@ -15,7 +15,8 @@ $doctor = new Doctor($db);
 $doctor->id = $_POST['id'];
 $doctor->name = $_POST['name'];
 $doctor->email = $_POST['email'];
-$doctor->password = base64_encode($_POST['password']);
+// Replace base64 with proper hashing
+$doctor->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 $doctor->phone = $_POST['phone'];
 $doctor->gender = $_POST['gender'];
 $doctor->specialist = $_POST['specialist'];

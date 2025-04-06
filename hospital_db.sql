@@ -85,4 +85,58 @@ ALTER TABLE `patients`
   ADD CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`),
   ADD CONSTRAINT `patients_ibfk_2` FOREIGN KEY (`nurse_id`) REFERENCES `nurses` (`id`);
 
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Add necessary roles including 'patient' which is required for registration
+INSERT INTO `roles` (`name`, `description`) VALUES
+('admin', 'Administrator with full system access'),
+('doctor', 'Medical doctor with patient access'),
+('nurse', 'Nursing staff with limited patient access'),
+('patient', 'Patient with limited access to own records');
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `gender` int(11) DEFAULT NULL,
+  `specialist` varchar(255) DEFAULT NULL,
+  `health_condition` varchar(255) DEFAULT NULL,
+  `email_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `verification_token` varchar(64) DEFAULT NULL,
+  `reset_token` varchar(64) DEFAULT NULL,
+  `reset_token_expiry` datetime DEFAULT NULL,
+  `mfa_enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `mfa_secret` varchar(64) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_login` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `patients` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `nurse_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `doctor_id` (`doctor_id`),
+  KEY `nurse_id` (`nurse_id`),
+  CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `patients_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `patients_ibfk_3` FOREIGN KEY (`nurse_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 COMMIT;

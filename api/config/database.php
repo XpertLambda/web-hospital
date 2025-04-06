@@ -16,10 +16,13 @@ class Database{
         try{
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->exec("set names utf8");
-            return $this->conn; // Move return inside try block
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $this->conn;
         }catch(PDOException $exception){
-            echo "Connection error: " . $exception->getMessage();
-            return null; // Return null on error
+            // Log the error for system admins
+            error_log("Database Connection Error: " . $exception->getMessage());
+            // Return null for the application to handle
+            return null;
         }
     }
 }

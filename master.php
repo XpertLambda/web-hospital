@@ -1,3 +1,10 @@
+<?php
+include('../master_auth.php');
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,15 +54,18 @@
               <!-- The user image in the navbar-->
               <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Dr. ADELL ;)</span>
+              <span class="hidden-xs"><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest'; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
                 <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
-                  A - Professor ;)
-                  <small>Member since May. 2018</small>
+                  <?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest'; ?>
+                  <?php if(isset($_SESSION['user_role'])): ?>
+                    - <?php echo ucfirst($_SESSION['user_role']); ?>
+                  <?php endif; ?>
+                  <small>Member since <?php echo date('M. Y'); ?></small>
                 </p>
               </li>
               
@@ -65,7 +75,11 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <?php if(isset($_SESSION['user_id'])): ?>
+                    <a href="/auth/logout.php" class="btn btn-default btn-flat">Sign out</a>
+                  <?php else: ?>
+                    <a href="/auth/login.php" class="btn btn-default btn-flat">Sign in</a>
+                  <?php endif; ?>
                 </div>
               </li>
             </ul>
@@ -86,8 +100,7 @@
           <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>ADELL A.</p>
-          <!-- Status -->
+          <p><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest'; ?></p>
           <a href=""><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -189,5 +202,6 @@
 <script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
+
 </body>
 </html>

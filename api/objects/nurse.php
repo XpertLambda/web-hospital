@@ -91,4 +91,45 @@ class Nurse{
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
+
+    // Read a single nurse (used for nurses to see their own info)
+    public function readSingle($id) {
+        $query = "SELECT n.id, n.name, n.email, n.phone 
+                  FROM " . $this->table_name . " n 
+                  WHERE n.id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        
+        return $stmt;
+    }
+
+    // Read nurse assigned to a specific patient
+    public function readPatientNurse($patientId) {
+        $query = "SELECT n.id, n.name, n.email, n.phone 
+                  FROM " . $this->table_name . " n 
+                  JOIN patients p ON p.nurse_id = n.id 
+                  WHERE p.user_id = :patient_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':patient_id', $patientId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
+
+    // Read nurses working with a specific doctor's patients
+    public function readByDoctor($doctorId) {
+        $query = "SELECT DISTINCT n.id, n.name, n.email, n.phone 
+                  FROM " . $this->table_name . " n 
+                  JOIN patients p ON p.nurse_id = n.id 
+                  WHERE p.doctor_id = :doctor_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':doctor_id', $doctorId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
 }

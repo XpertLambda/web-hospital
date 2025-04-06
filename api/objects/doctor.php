@@ -143,4 +143,31 @@ class Doctor{
             return false;
         }
     }
+
+    // Read a single doctor (used for doctors to see their own info)
+    public function readSingle($id) {
+        $query = "SELECT d.id, d.name, d.email, d.phone, d.gender, d.specialist 
+                  FROM " . $this->table_name . " d 
+                  WHERE d.id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        
+        return $stmt;
+    }
+
+    // Read doctor assigned to a specific patient
+    public function readPatientDoctor($patientId) {
+        $query = "SELECT d.id, d.name, d.email, d.phone, d.gender, d.specialist 
+                  FROM " . $this->table_name . " d 
+                  JOIN patients p ON p.doctor_id = d.id 
+                  WHERE p.user_id = :patient_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':patient_id', $patientId);
+        $stmt->execute();
+        
+        return $stmt;
+    }
 }
